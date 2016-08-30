@@ -9,6 +9,8 @@
   "author": "msimone",
   "license": "ISC",
   "dependencies": {
+    /*The caret (^) in front of the package versions indicates that any version that starts with the
+    specified version number—up to the next major version number—will work.*/
     "express": "^4.14.0",
     "express3-handlebars": "^0.5.2"
   }

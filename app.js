@@ -1,4 +1,10 @@
-var express = require('express');
+/*require is a Node function for importing a module. By default, Node looks for modules
+in the directory node_modules (it should be no surprise, then, that there’s an express
+directory inside of node_modules).*/
+var express = require('express'),
+    /* ./. This signals to Node that it should not
+    look for the module in the node_modules directory;*/
+    fortune = require('./lib/fortune');
 
 var app = express();
 
@@ -32,10 +38,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/about', function (req, res) {
-    // res.type sets the Content-Type header
-    /*res.type('text/plain');
-    res.send('About Page');*/
-    var randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+    var randomFortune = fortune.getFortune();
     res.render('about', { fortune: randomFortune });
 });
 
@@ -46,6 +49,8 @@ route. This brings us to a very important point: in Express, the order in which 
 middleware are added is significant. If we put the 404 handler above the routes, the home
 page and About page would stop working: instead, those URLs would result in a 404.*/
 app.use(function (req, res, next) {
+    // res.type sets the Content-Type header
+    // res.type('text/plain');
     res.status(404);
     res.render('404');
 });
@@ -60,11 +65,3 @@ app.use(function (err, req, res, next) {
 app.listen(app.get('port'), function () {
     console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
 });
-
-var fortunes = [
-    "Conquer your fears or they will conquer you.",
-    "Rivers need springs.",
-    "Do not fear what you don't know.",
-    "You will have a pleasant surprise.",
-    "Whenever possible, keep it simple.",
-];
