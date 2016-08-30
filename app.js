@@ -15,6 +15,12 @@ app.set('view engine', 'handlebars');
 
 app.set('port', process.env.PORT || 3000);
 
+app.use(function (req, res, next) {
+    res.locals.showTests = app.get('env') !== 'production' &&
+        req.query.test === '1';
+    next();
+});
+
 /*The static middleware allows you to designate one or more directories as containing
 static resources that are simply to be delivered to the client without any special handling.
 This is where you would put things like images, CSS files, and client-side JavaScript files.
